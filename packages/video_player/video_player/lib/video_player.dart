@@ -509,6 +509,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
 
     void errorListener(Object obj) {
       final PlatformException e = obj as PlatformException;
+      if (e.code == 'VideoError' && e.message == 'Video cannot be fast-forwarded beyond 2.0x') {
+        return;
+      }
       value = VideoPlayerValue.erroneous(e.message!);
       _timer?.cancel();
       if (!initializingCompleter.isCompleted) {
